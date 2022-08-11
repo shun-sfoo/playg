@@ -1,1 +1,7 @@
 # playg
+
+## G_DEFINE_TYPE
+
+See G_DEFINE_TYPE_EXTENDED() for an example.
+
+关于的用法 G_DEFINE_TYPE 可以查看 G_DEFINE_TYPE_EXTENDED() 源码中的例子
