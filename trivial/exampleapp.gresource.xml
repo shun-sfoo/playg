@@ -2,5 +2,6 @@
 <gresources>
   <gresource prefix="/org/gtk/exampleapp">
     <file preprocess="xml-stripblanks">window.glade</file>
+    <file preprocess="xml-stripblanks">gears-menu.glade</file>
   </gresource>
 </gresources>
