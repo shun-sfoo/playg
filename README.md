@@ -13,3 +13,11 @@ glib-compile-resources exampleapp.gresource.xml --target=resources.c --generate-
 ## gsettings
 
 copy gschemas.compiled to build directory
+
+## example
+
+use cmake tool-chain
+
+## trivial
+
+use meson tool-chain
