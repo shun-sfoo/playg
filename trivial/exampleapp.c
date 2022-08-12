@@ -1,6 +1,7 @@
 #include <gtk/gtk.h>
 
 #include "exampleapp.h"
+#include "exampleappprefs.h"
 #include "exampleappwin.h"
 
 struct _ExampleApp
@@ -18,6 +19,12 @@ example_app_init (ExampleApp *app)
 static void
 preferences_activated (GSimpleAction *action, GVariant *parameter, gpointer app)
 {
+  ExampleAppPrefs *prefs;
+  GtkWindow *win;
+
+  win = gtk_application_get_active_window (GTK_APPLICATION (app));
+  prefs = example_app_prefs_new (EXAMPLE_APP_WINDOW (win));
+  gtk_window_present (GTK_WINDOW (prefs));
 }
 
 static void

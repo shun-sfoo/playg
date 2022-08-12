@@ -7,6 +7,7 @@ struct _ExampleAppWindow
 {
   GtkApplicationWindow parent;
 
+  GSettings *settings;
   GtkWidget *stack;
   GtkWidget *gears;
 };
@@ -25,11 +26,29 @@ example_app_window_init (ExampleAppWindow *win)
   menu = G_MENU_MODEL (gtk_builder_get_object (builder, "menu"));
   gtk_menu_button_set_menu_model (GTK_MENU_BUTTON (win->gears), menu);
   g_object_unref (builder);
+
+  win->settings = g_settings_new ("org.gtk.exampleapp");
+
+  g_settings_bind (win->settings, "transition", win->stack, "transition-type", G_SETTINGS_BIND_DEFAULT);
+}
+
+static void
+example_app_window_dispose (GObject *object)
+{
+  ExampleAppWindow *win;
+
+  win = EXAMPLE_APP_WINDOW (object);
+
+  g_clear_object (&win->settings);
+
+  G_OBJECT_CLASS (example_app_window_parent_class)->dispose (object);
 }
 
 static void
 example_app_window_class_init (ExampleAppWindowClass *class)
 {
+  G_OBJECT_CLASS (class)->dispose = example_app_window_dispose;
+
   gtk_widget_class_set_template_from_resource (GTK_WIDGET_CLASS (class), "/org/gtk/exampleapp/window.glade");
   gtk_widget_class_bind_template_child (GTK_WIDGET_CLASS (class), ExampleAppWindow, stack);
   gtk_widget_class_bind_template_child (GTK_WIDGET_CLASS (class), ExampleAppWindow, gears);
@@ -48,6 +67,9 @@ example_app_window_open (ExampleAppWindow *win, GFile *file)
   GtkWidget *scrolled, *view;
   char *contents;
   gsize length;
+  GtkTextBuffer *buffer;
+  GtkTextTag *tag;
+  GtkTextIter start_iter, end_iter;
 
   basename = g_file_get_basename (file);
 
@@ -60,14 +82,20 @@ example_app_window_open (ExampleAppWindow *win, GFile *file)
   gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW (scrolled), view);
   gtk_stack_add_titled (GTK_STACK (win->stack), scrolled, basename, basename);
 
+  buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
+
   if (g_file_load_contents (file, NULL, &contents, &length, NULL, NULL))
     {
-      GtkTextBuffer *buffer;
-
-      buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
       gtk_text_buffer_set_text (buffer, contents, length);
       g_free (contents);
     }
+
+  tag = gtk_text_buffer_create_tag (buffer, NULL, NULL);
+  g_settings_bind (win->settings, "font", tag, "font", G_SETTINGS_BIND_DEFAULT);
+
+  gtk_text_buffer_get_start_iter (buffer, &start_iter);
+  gtk_text_buffer_get_end_iter (buffer, &end_iter);
+  gtk_text_buffer_apply_tag (buffer, tag, &start_iter, &end_iter);
 
   g_free (basename);
 }

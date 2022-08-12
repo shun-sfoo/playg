@@ -9,3 +9,7 @@ See G_DEFINE_TYPE_EXTENDED() for an example.
 ## generte resouce source code
 
 glib-compile-resources exampleapp.gresource.xml --target=resources.c --generate-source
+
+## gsettings
+
+copy gschemas.compiled to build directory
