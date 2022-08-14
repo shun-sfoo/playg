@@ -56,3 +56,8 @@ dkms.conf
 build
 compile_commands.json
 neovim.json
+
+# Java
+*.class
+.metadata
+jdt.ls-java-project
