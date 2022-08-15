@@ -21,3 +21,17 @@ use cmake tool-chain
 ## trivial
 
 use meson tool-chain
+
+## gobject articles
+
+[object-oriented](http://garfileo.is-programmer.com/categories/6934/posts)
+
+### manually
+
+macro extend
+
+`gcc $(pkg-config --cflags --libs gobject-2.0) -E -P pm-dlist.c >> extend.c`
+
+compiler
+
+`gcc $(pkg-config --cflags --libs gobject-2.0) pm-dlist.c main.c -o test`
