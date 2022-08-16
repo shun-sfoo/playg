@@ -21,3 +21,22 @@ use cmake tool-chain
 ## trivial
 
 use meson tool-chain
+
+## tutorial
+
+### animation
+
+the key of animation in gtk and cairo is
+
+`g_timeout_add(1000, (GSourceFunc) time_handler, (gpointer) drawarea);`
+
+```c
+gboolean
+time_handler(GtkWidget* widget) {
+    gtk_widget_queue_draw(widget);
+
+    return TRUE;
+}
+```
+
+`gtk_widget_queue_draw()` which schedules a redraw of the widget
