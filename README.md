@@ -40,3 +40,8 @@ time_handler(GtkWidget* widget) {
 ```
 
 `gtk_widget_queue_draw()` which schedules a redraw of the widget
+
+## Container
+
+GtkWindow and GtkApplicationWindow can have only one child.
+If you want to add two or more widgets in a window, you need a container widget. GtkBox is one of the containers.
