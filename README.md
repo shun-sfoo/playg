@@ -92,3 +92,11 @@ You can check the ui file with gtk4-builder-tool.
 2. gtk4-builder-tool simplify <ui file name> simplifies the ui file and prints the result. If --replace option is given, it replaces the ui file with the simplified one. If the ui file specifies a value of property but it is default, then it will be removed. And some values are simplified. For example, “TRUE”and “FALSE” becomes “1” and “0” respectively. However, “TRUE” or “FALSE” is better for maintenance.
 
 It is a good idea to check your ui file before compiling.
+
+## Signal
+
+GObject signals are registered, connected and emitted.
+
+1. Signals are registered with the object type on which they are emitted. The registration is done usually when the object class is initialized.
+2. Signals are connected to handlers by g_connect_signal or its family functions. The connection is usually done out of the object.
+3. When Signals are emitted, the connected handlers are invoked. Signal is emitted on the instance of the object.
